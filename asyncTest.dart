@@ -11,4 +11,6 @@ void main() {
   for (int i = 0; i < 10; i++) {
     fn(i, rnd).then((id) => print("$id done"));
   }
+
+  print('main done');
 }

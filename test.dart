@@ -1,14 +1,24 @@
 import 'dart:io';
 
 import 'LinkedList.dart';
+import 'DoublyLinkedList.dart';
+import 'OwnList.dart';
 
 // Doesn't work with dart's ECMA regex engine :(
 //const inputRegex = r'^([a|i|r]):(?(?<=i:)(\d+)|()):(\d+)$';
-// Still have to do async
-final LinkedList<int> linkedList = new LinkedList();
 
-void main() {
+List<String> checkArgs(List<String> args) {
+  if (args.length == 0 || !['single', 'double'].contains(args[0]))
+    throw new ArgumentError("Single or double flavor?");
+
+  return args;
+}
+
+void main(List<String> args) {
   String? input;
+  final OwnList<int> ownList = checkArgs(args)[0] == 'single'
+      ? new LinkedList<int>()
+      : new DoublyLinkedList<int>();
 
   while ((input = stdin.readLineSync()?.trim()) != 'q') {
     if (input == null) return;
@@ -21,17 +31,17 @@ void main() {
       case 'add' || 'remove':
         if (intVal == null) break;
 
-        if (action == 'add') linkedList.add(intVal);
-        if (action == 'remove') linkedList.remove(intVal);
+        if (action == 'add') ownList.add(intVal);
+        if (action == 'remove') ownList.remove(intVal);
         break;
       case 'before' || 'after':
         if (intVal == null || intOpVal == null) break;
 
-        if (action == 'before') linkedList.insertBefore(intOpVal, intVal);
-        if (action == 'after') linkedList.insertAfter(intOpVal, intVal);
+        if (action == 'before') ownList.insertBefore(intOpVal, intVal);
+        if (action == 'after') ownList.insertAfter(intOpVal, intVal);
         break;
       case 'clear':
-        linkedList.clear();
+        ownList.clear();
         break;
       default:
         print('???');
@@ -39,6 +49,6 @@ void main() {
     }
 
     String prefix = "$action($intOpVal, $intVal)";
-    print("$prefix: ${linkedList.length() > 0 ? linkedList : 'empty'}");
+    print("$prefix: ${ownList.length() > 0 ? ownList : 'empty'}");
   }
 }

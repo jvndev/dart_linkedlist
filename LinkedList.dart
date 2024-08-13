@@ -1,3 +1,5 @@
+import 'OwnList.dart';
+
 class Node<E> {
   late E val;
   Node<E>? next;
@@ -12,7 +14,7 @@ class Node<E> {
   }
 }
 
-class LinkedList<E> {
+class LinkedList<E> extends OwnList<E> {
   Node<E>? head;
 
   Node<E> _add(E val, Node<E>? node) {
@@ -23,6 +25,7 @@ class LinkedList<E> {
     return node;
   }
 
+  @override
   void add(E val) {
     head = _add(val, head);
   }
@@ -36,6 +39,7 @@ class LinkedList<E> {
     return node;
   }
 
+  @override
   void insertBefore(E before, E val) {
     this.head = this._insertBefore(before, val, this.head);
   }
@@ -53,6 +57,7 @@ class LinkedList<E> {
     return node;
   }
 
+  @override
   void insertAfter(E after, E val) {
     this.head = this._insertAfter(after, val, this.head);
   }
@@ -66,6 +71,7 @@ class LinkedList<E> {
     return node;
   }
 
+  @override
   void remove(E val) {
     this.head = _remove(val, this.head);
   }
@@ -74,10 +80,12 @@ class LinkedList<E> {
     return node == null ? 0 : _length(node.next) + 1;
   }
 
+  @override
   int length() {
     return this._length(this.head);
   }
 
+  @override
   void clear() {
     this.head = null;
   }
